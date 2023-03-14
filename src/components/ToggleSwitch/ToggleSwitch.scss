@@ -1,0 +1,18 @@
+.toggle-switch {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+
+    span {
+        margin: 0 8px;
+        font-size: 16px;
+        font-weight: bold;
+        color: #333;
+        text-transform: uppercase;
+    }
+
+    .keep-bg-color {
+        background-color: #1890ff !important;
+    }
+}

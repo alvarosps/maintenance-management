@@ -1,29 +1,21 @@
 import React from 'react';
 import { createRoot } from 'react-dom/client';
-import { Layout } from 'antd';
-
+import App from './App';
 import './index.scss';
+import { RecoilRoot } from 'recoil';
 
-const { Header, Content, Footer } = Layout;
-
-const App: React.FC = () => {
+const Root: React.FC = () => {
     return (
-        <Layout className="layout">
-            <Header>
-                <div className="logo" />
-            </Header>
-            <Content style={{ padding: '50px' }}>
-                <div id="container" />
-            </Content>
-            <Footer style={{ textAlign: 'center' }}>Created by Alvaro Silva ©2023</Footer>
-        </Layout>
+        <RecoilRoot>
+            <App />
+        </RecoilRoot>
     );
 };
 
 const rootElement = document.getElementById('root');
 
 if (rootElement) {
-  createRoot(rootElement).render(<App />);
+    createRoot(rootElement).render(<Root />);
 } else {
-  console.error('Could not find root element');
+    console.error('Could not find root element');
 }

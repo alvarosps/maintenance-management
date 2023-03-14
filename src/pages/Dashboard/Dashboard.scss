@@ -1,0 +1,26 @@
+.assets-graphs {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.assets-details {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    .details-list {
+        width: 100%;
+
+        .asset-detail {
+            cursor: pointer;
+            text-align: center;
+            margin: 10px;
+
+            &:hover {
+                background-color: #bfefff;
+            }
+        }
+    }
+}
