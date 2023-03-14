@@ -5,54 +5,42 @@ import highchartsAnnotations from 'highcharts/modules/annotations';
 import highchartsMore from 'highcharts/highcharts-more';
 import highchartsAccessibility from 'highcharts/modules/accessibility';
 import { useRecoilState, useRecoilValueLoadable, useSetRecoilState } from 'recoil';
-import { Button, Card, Col, Row, Spin } from 'antd';
+import { Button, Card, Col, Row, Spin, Typography } from 'antd';
 import { Asset } from '../../types';
 import ToggleSwitch from '../../components/ToggleSwitch/ToggleSwitch';
-import './Dashboard.scss';
 import AssetModal from '../../components/AssetModal/AssetModal';
-import { assetListState, companyListState, pageTitleState, unitListState, userListState } from '../../recoil/atoms';
+import { assetListState, pageTitleState } from '../../recoil/atoms';
 import { createAsset, deleteAsset, getAssets, updateAsset } from '../../api/assets';
-import { getCompanies } from '../../api/companies';
-import { getUnits } from '../../api/units';
-import { getUsers } from '../../api/users';
 import CreateAssetModal from '../../components/CreateAssetModal/CreateAssetModal';
+import './Dashboard.scss';
+
+const { Text } = Typography;
 
 highchartsMore(Highcharts);
 highchartsAnnotations(Highcharts);
 highchartsAccessibility(Highcharts);
 
-const Dashboard = () => {
+const Dashboard: React.FC = () => {
     const setPageTitle = useSetRecoilState(pageTitleState);
 
     useEffect(() => {
         setPageTitle('Assets Dashboard');
     });
 
-    // Will load the Companies, Units and Users data from API to the Recoil State
-    const setUserList = useSetRecoilState(userListState);
-    const setUnitList = useSetRecoilState(unitListState);
-    const setCompanyList = useSetRecoilState(companyListState);
-
-    useEffect(() => {
-        const fetchData = async () => {
-            const [companies, units, users] = await Promise.all([getCompanies(), getUnits(), getUsers()]);
-
-            setCompanyList(companies);
-            setUnitList(units);
-            setUserList(users);
-        };
-
-        fetchData();
-    }, [setCompanyList, setUnitList, setUserList]);
-
     const [assetList, setAssetList] = useRecoilState(assetListState);
     const assetListLoadable = useRecoilValueLoadable(assetListState);
+    const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
         if (assetListLoadable.state === 'hasValue' && assetListLoadable.contents.length === 0) {
             const loadAssets = async () => {
-                const assets = await getAssets();
-                setAssetList(assets);
+                try {
+                    const assets = await getAssets();
+                    setAssetList(assets);
+                } catch (e) {
+                    setError('An error occurred while fetching assets. For more details, check the logs.');
+                    console.warn('Error while fetching assets', e);
+                }
             };
             loadAssets();
         }
@@ -155,19 +143,29 @@ const Dashboard = () => {
     }, []);
 
     const onModalSave = useCallback(async (updatedAsset: Asset) => {
-        const updatedData = await updateAsset(updatedAsset.id, updatedAsset);
-        setAssetList((oldAssetList) =>
-            oldAssetList.map((asset) => (asset.id === updatedAsset.id ? updatedData : asset)),
-        );
-        setSelectedAsset(updatedData);
+        try {
+            const updatedData = await updateAsset(updatedAsset.id, updatedAsset);
+            setAssetList((oldAssetList) =>
+                oldAssetList.map((asset) => (asset.id === updatedAsset.id ? updatedData : asset)),
+            );
+            setSelectedAsset(updatedData);
+        } catch (e) {
+            setError('An error occurred while saving an asset. For more details, check the logs.');
+            console.warn('Error while saving asset', e);
+        }
     }, []);
 
     const onModalDelete = useCallback(
         async (assetToDelete: Asset) => {
-            setAssetList(assetList.filter((asset) => asset.id !== assetToDelete.id));
-            setSelectedAsset(undefined);
-            setIsModalOpen(false);
-            await deleteAsset(assetToDelete.id);
+            try {
+                setAssetList(assetList.filter((asset) => asset.id !== assetToDelete.id));
+                setSelectedAsset(undefined);
+                setIsModalOpen(false);
+                await deleteAsset(assetToDelete.id);
+            } catch (e) {
+                setError('An error occurred while deleting an asset. For more details, check the logs.');
+                console.warn('Error while deleting asset', e);
+            }
         },
         [assetList],
     );
@@ -180,9 +178,14 @@ const Dashboard = () => {
     }, []);
 
     const handleCreateAsset = useCallback(async (newAsset: Asset) => {
-        const createdAsset = await createAsset(newAsset);
-        setAssetList((oldAssetList) => [...oldAssetList, createdAsset]);
-        setIsCreateModalOpen(false);
+        try {
+            const createdAsset = await createAsset(newAsset);
+            setAssetList((oldAssetList) => [...oldAssetList, createdAsset]);
+            setIsCreateModalOpen(false);
+        } catch (e) {
+            setError('An error occurred while creating an asset. For more details, check the logs.');
+            console.warn('Error while creating asset', e);
+        }
     }, []);
 
     const onCreateCancel = useCallback(() => {
@@ -198,6 +201,11 @@ const Dashboard = () => {
             )}
             {areGraphsOptionsLoaded && (
                 <>
+                    {error && (
+                        <div className='error-message'>
+                            <Text type="danger">{error}</Text>
+                        </div>
+                    )}
                     <Card className="assets-graphs">
                         <ToggleSwitch
                             checked={switchChecked}
@@ -217,7 +225,7 @@ const Dashboard = () => {
                                 Create new Asset
                             </Button>
                         </div>
-                        <Row gutter={[16, 16]} className="details-list">
+                        {assetList.length > 0 && (<Row gutter={[16, 16]} className="details-list">
                             {assetList.map((asset, index) => (
                                 <Col xs={8} md={4} key={`asset-${index}`}>
                                     <Card
@@ -231,7 +239,10 @@ const Dashboard = () => {
                                     </Card>
                                 </Col>
                             ))}
-                        </Row>
+                        </Row>)}
+                        {assetList.length === 0 && (
+                            <h3 style={{ textAlign: 'center' }}>No Assets were found, maybe create one?</h3>
+                        )}
                         <AssetModal
                             visible={isModalOpen}
                             asset={selectedAsset}

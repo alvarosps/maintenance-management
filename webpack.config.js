@@ -30,6 +30,8 @@ module.exports = {
         },
         compress: true,
         port: 8080,
+        historyApiFallback: true,
+        hot: true,
     },
     devtool: 'source-map',
     plugins: [

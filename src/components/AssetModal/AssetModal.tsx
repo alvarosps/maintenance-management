@@ -72,6 +72,13 @@ const AssetModal: React.FC<AssetModalProps> = (props: AssetModalProps) => {
         }
     }, [asset]);
 
+    const showUnitsNames = useCallback(() => {
+        if (asset) {
+            const unit = units.find((unit) => unit.id === asset.unitId);
+            return unit?.name;
+        }
+    }, [asset]);
+
     return (
         <>
             {asset && (
@@ -104,6 +111,7 @@ const AssetModal: React.FC<AssetModalProps> = (props: AssetModalProps) => {
                                 </ul>
                             </Form.Item>
                         )}
+                        <Form.Item label="Units:">{showUnitsNames()}</Form.Item>
                         <Form.Item label="Health History:">
                             <ul>
                                 {asset.healthHistory.map((historyItem) => (
