@@ -6,6 +6,7 @@ export type Asset = {
     image: string;
     healthscore: number;
     status: string;
+    sensors: string[];
     metrics: Metric[];
     specifications: {
         maxTemp: number;
@@ -16,18 +17,33 @@ export type Asset = {
     companyId: number;
 };
 
-type HealthHistory = {
+interface HealthHistory {
     status: string;
     timestamp: string;
-};
+}
 
-type Metric = {
+interface Metric {
     timestamp: string;
     temperature: number;
     humidity: number;
     rpm: number;
+}
+
+export type User = {
+    companyId: number;
+    email: string;
+    id: number;
+    name: string;
+    unitId: number;
 };
 
-type AssetsApiResponse = {
-    assets: Asset[];
+export type Unit = {
+    companyId: number;
+    id: number;
+    name: string;
+};
+
+export type Company = {
+    id: number;
+    name: string;
 };

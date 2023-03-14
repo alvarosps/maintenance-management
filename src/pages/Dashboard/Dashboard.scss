@@ -10,6 +10,17 @@
     justify-content: center;
     align-items: center;
 
+    .assets-details-header {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+
+        button {
+            margin-left: 10px;
+        }
+    }
+
     .details-list {
         width: 100%;
 

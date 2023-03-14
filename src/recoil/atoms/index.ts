@@ -1,12 +1,27 @@
 import { atom } from 'recoil';
-import { Asset } from '../../types';
+import { Asset, Company, Unit, User } from '../../types';
 
-export const pagetTitleState = atom<string>({
+export const pageTitleState = atom<string>({
     key: 'pageTitleState',
     default: 'Maintenance Management',
 });
 
 export const assetListState = atom<Asset[]>({
     key: 'assetList',
+    default: [],
+});
+
+export const userListState = atom<User[]>({
+    key: 'userList',
+    default: [],
+});
+
+export const unitListState = atom<Unit[]>({
+    key: 'unitList',
+    default: [],
+});
+
+export const companyListState = atom<Company[]>({
+    key: 'companyList',
     default: [],
 });

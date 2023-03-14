@@ -1,17 +1,26 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { Asset } from '../../types';
 import { Button, Form, Modal } from 'antd';
+import { DeleteOutlined } from '@ant-design/icons';
 import EditableField from '../EditableField/EditableField';
+import './AssetModal.scss';
+import { useRecoilValue } from 'recoil';
+import { companyListState, unitListState, userListState } from '../../recoil/atoms';
 
 type AssetModalProps = {
     visible: boolean;
     asset: Asset | undefined;
     onCancel: () => void;
     onSave: (asset: Asset) => void;
+    onDelete: (assetToDelete: Asset) => void;
 };
 
 const AssetModal: React.FC<AssetModalProps> = (props: AssetModalProps) => {
-    const { visible, asset, onCancel, onSave } = props;
+    const { visible, asset, onCancel, onSave, onDelete } = props;
+
+    const users = useRecoilValue(userListState);
+    const companies = useRecoilValue(companyListState);
+    const units = useRecoilValue(unitListState);
 
     const assetOptions = [
         { value: 'inOperation', text: 'In Operation' },
@@ -40,13 +49,36 @@ const AssetModal: React.FC<AssetModalProps> = (props: AssetModalProps) => {
         setEditing(false);
     }, [onSave, asset, status]);
 
+    const handleDelete = useCallback(() => {
+        if (asset) onDelete(asset);
+    }, [asset]);
+
+    const showUserNames = useCallback(() => {
+        if (asset) {
+            const userNames = users
+                .filter((user) => {
+                    if (user.id in asset.assignedUserIds) return true;
+                    else return false;
+                })
+                .map((user) => user.name);
+            return userNames.join(', ');
+        }
+    }, [asset]);
+
+    const showCompanyName = useCallback(() => {
+        if (asset) {
+            const company = companies.find((company) => company.id === asset.companyId);
+            return company?.name;
+        }
+    }, [asset]);
+
     return (
         <>
             {asset && (
                 <Modal open={visible} title="Asset Details" onCancel={onCancel} footer={null}>
                     <Form layout="vertical">
-                        <Form.Item label="Name">{asset.name}</Form.Item>
-                        <Form.Item label="Status">
+                        <Form.Item label="Name:">{asset.name}</Form.Item>
+                        <Form.Item label="Status:">
                             <EditableField
                                 field="status"
                                 value={status}
@@ -55,9 +87,24 @@ const AssetModal: React.FC<AssetModalProps> = (props: AssetModalProps) => {
                                 options={assetOptions}
                             />
                         </Form.Item>
-                        <Form.Item label="Health Score">{asset.healthscore}</Form.Item>
-                        <Form.Item label="Assigned Users">{asset.assignedUserIds.join(', ')}</Form.Item>
-                        <Form.Item label="Health History">
+                        <Form.Item label="Health Score:">{asset.healthscore}</Form.Item>
+                        <Form.Item label="Assigned Users:">{showUserNames()}</Form.Item>
+                        <Form.Item label="Company:">{showCompanyName()}</Form.Item>
+                        <Form.Item label="Sensors:">{asset.sensors.join(', ')}</Form.Item>
+                        {Object.keys(asset.specifications).length > 0 && (
+                            <Form.Item label="Specifications:">
+                                <ul>
+                                    {asset.specifications.maxTemp !== undefined && (
+                                        <li>Max Temp: {asset.specifications.maxTemp}</li>
+                                    )}
+                                    {asset.specifications.power !== undefined && (
+                                        <li>Power: {asset.specifications.power}</li>
+                                    )}
+                                    {asset.specifications.rpm !== undefined && <li>RPM: {asset.specifications.rpm}</li>}
+                                </ul>
+                            </Form.Item>
+                        )}
+                        <Form.Item label="Health History:">
                             <ul>
                                 {asset.healthHistory.map((historyItem) => (
                                     <li key={historyItem.timestamp}>
@@ -67,20 +114,25 @@ const AssetModal: React.FC<AssetModalProps> = (props: AssetModalProps) => {
                             </ul>
                         </Form.Item>
                     </Form>
-                    {editing ? (
-                        <div>
-                            <Button type="primary" onClick={handleSave}>
-                                Save
+                    <div className="modal-buttons">
+                        {editing ? (
+                            <>
+                                <Button type="primary" onClick={handleSave}>
+                                    Save
+                                </Button>
+                                <Button danger icon={<DeleteOutlined />} onClick={handleDelete}>
+                                    Delete
+                                </Button>
+                                <Button style={{ marginLeft: 8 }} onClick={() => setEditing(false)}>
+                                    Cancel
+                                </Button>
+                            </>
+                        ) : (
+                            <Button type="primary" onClick={() => setEditing(true)}>
+                                Update Status
                             </Button>
-                            <Button style={{ marginLeft: 8 }} onClick={() => setEditing(false)}>
-                                Cancel
-                            </Button>
-                        </div>
-                    ) : (
-                        <Button type="primary" onClick={() => setEditing(true)}>
-                            Edit
-                        </Button>
-                    )}
+                        )}
+                    </div>
                 </Modal>
             )}
         </>

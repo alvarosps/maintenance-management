@@ -1,0 +1,10 @@
+.modal-buttons {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    align-items: center;
+
+    button {
+        margin: 5px;
+    }
+}

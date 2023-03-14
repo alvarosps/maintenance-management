@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { pagetTitleState } from '../../recoil/atoms';
+import { pageTitleState } from '../../recoil/atoms';
 import { useRecoilValue } from 'recoil';
 import { Button, Layout } from 'antd';
 import { MenuOutlined } from '@ant-design/icons';
@@ -9,7 +9,7 @@ import Navbar from '../Navbar/Navbar';
 const { Header } = Layout;
 
 const AppHeader: React.FC = () => {
-    const pageTitle = useRecoilValue(pagetTitleState);
+    const pageTitle = useRecoilValue(pageTitleState);
 
     const [isNavbarOpen, setIsNavbarOpen] = useState(false);
 

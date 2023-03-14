@@ -1,28 +1,49 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import Highcharts from 'highcharts';
 import HighchartsReact from 'highcharts-react-official';
 import highchartsAnnotations from 'highcharts/modules/annotations';
 import highchartsMore from 'highcharts/highcharts-more';
 import highchartsAccessibility from 'highcharts/modules/accessibility';
 import { useRecoilState, useRecoilValueLoadable, useSetRecoilState } from 'recoil';
-import { Card, Col, Row, Spin } from 'antd';
+import { Button, Card, Col, Row, Spin } from 'antd';
 import { Asset } from '../../types';
 import ToggleSwitch from '../../components/ToggleSwitch/ToggleSwitch';
 import './Dashboard.scss';
 import AssetModal from '../../components/AssetModal/AssetModal';
-import { assetListState, pagetTitleState } from '../../recoil/atoms';
-import { getAssets } from '../../api';
+import { assetListState, companyListState, pageTitleState, unitListState, userListState } from '../../recoil/atoms';
+import { createAsset, deleteAsset, getAssets, updateAsset } from '../../api/assets';
+import { getCompanies } from '../../api/companies';
+import { getUnits } from '../../api/units';
+import { getUsers } from '../../api/users';
+import CreateAssetModal from '../../components/CreateAssetModal/CreateAssetModal';
 
 highchartsMore(Highcharts);
 highchartsAnnotations(Highcharts);
 highchartsAccessibility(Highcharts);
 
 const Dashboard = () => {
-    const setPageTitle = useSetRecoilState(pagetTitleState);
+    const setPageTitle = useSetRecoilState(pageTitleState);
 
     useEffect(() => {
-        setPageTitle('Maintenance Management Dashboard');
+        setPageTitle('Assets Dashboard');
     });
+
+    // Will load the Companies, Units and Users data from API to the Recoil State
+    const setUserList = useSetRecoilState(userListState);
+    const setUnitList = useSetRecoilState(unitListState);
+    const setCompanyList = useSetRecoilState(companyListState);
+
+    useEffect(() => {
+        const fetchData = async () => {
+            const [companies, units, users] = await Promise.all([getCompanies(), getUnits(), getUsers()]);
+
+            setCompanyList(companies);
+            setUnitList(units);
+            setUserList(users);
+        };
+
+        fetchData();
+    }, [setCompanyList, setUnitList, setUserList]);
 
     const [assetList, setAssetList] = useRecoilState(assetListState);
     const assetListLoadable = useRecoilValueLoadable(assetListState);
@@ -37,6 +58,7 @@ const Dashboard = () => {
         }
     }, [assetListLoadable, setAssetList]);
 
+    // Charts data control
     const [healthScoreChartOptions, setHealthScoreChartOptions] = useState<Highcharts.Options>();
     const [healthLevelChartOptions, setHealthLevelChartOptions] = useState<Highcharts.Options>();
     const [switchChecked, setSwitchChecked] = useState(true);
@@ -132,11 +154,39 @@ const Dashboard = () => {
         setIsModalOpen(false);
     }, []);
 
-    const onModalSave = useCallback((updatedAsset: Asset) => {
+    const onModalSave = useCallback(async (updatedAsset: Asset) => {
+        const updatedData = await updateAsset(updatedAsset.id, updatedAsset);
         setAssetList((oldAssetList) =>
-            oldAssetList.map((asset) => (asset.id === updatedAsset.id ? updatedAsset : asset)),
+            oldAssetList.map((asset) => (asset.id === updatedAsset.id ? updatedData : asset)),
         );
-        setSelectedAsset(updatedAsset);
+        setSelectedAsset(updatedData);
+    }, []);
+
+    const onModalDelete = useCallback(
+        async (assetToDelete: Asset) => {
+            setAssetList(assetList.filter((asset) => asset.id !== assetToDelete.id));
+            setSelectedAsset(undefined);
+            setIsModalOpen(false);
+            await deleteAsset(assetToDelete.id);
+        },
+        [assetList],
+    );
+
+    // Creation of asset control
+    const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
+
+    const openCreateModal = useCallback(() => {
+        setIsCreateModalOpen(true);
+    }, []);
+
+    const handleCreateAsset = useCallback(async (newAsset: Asset) => {
+        const createdAsset = await createAsset(newAsset);
+        setAssetList((oldAssetList) => [...oldAssetList, createdAsset]);
+        setIsCreateModalOpen(false);
+    }, []);
+
+    const onCreateCancel = useCallback(() => {
+        setIsCreateModalOpen(false);
     }, []);
 
     return (
@@ -161,7 +211,12 @@ const Dashboard = () => {
                         )}
                     </Card>
                     <div className="assets-details">
-                        <h3>Click on the Asset for Details</h3>
+                        <div className="assets-details-header">
+                            <h3>Click on the Asset for Details</h3>
+                            <Button type="primary" onClick={openCreateModal}>
+                                Create new Asset
+                            </Button>
+                        </div>
                         <Row gutter={[16, 16]} className="details-list">
                             {assetList.map((asset, index) => (
                                 <Col xs={8} md={4} key={`asset-${index}`}>
@@ -182,6 +237,12 @@ const Dashboard = () => {
                             asset={selectedAsset}
                             onCancel={onModalCancel}
                             onSave={onModalSave}
+                            onDelete={onModalDelete}
+                        />
+                        <CreateAssetModal
+                            visible={isCreateModalOpen}
+                            onSave={handleCreateAsset}
+                            onCancel={onCreateCancel}
                         />
                     </div>
                 </>
