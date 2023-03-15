@@ -8,7 +8,8 @@
         "build": "webpack --config webpack.prod.js",
         "test": "jest",
         "lint": "eslint --ext .js,.jsx,.ts,.tsx src",
-        "format": "prettier --write ."
+        "format": "prettier --write .",
+        "heroku-postbuild": "webpack --config webpack.prod.js"
     },
     "repository": {
         "type": "git",
@@ -66,6 +67,7 @@
         "react-router-dom": "^6.9.0",
         "recoil": "^0.7.7",
         "sass": "^1.59.2",
+        "serve": "^14.2.0",
         "webpack-merge": "^5.8.0"
     }
 }
