@@ -177,7 +177,7 @@ const WorkorderCard: React.FC<WorkOrderCardProps> = ({ workOrder, onUpdate, onDe
                                 </Select>
                             </Form.Item>
                             <Form.List name="checklist">
-                                {(fields, { add, remove }) => (
+                                {(fields) => (
                                     <>
                                         {fields.map((field, index) => (
                                             <Form.Item key={field.key} label={`Task ${index + 1}`} required={false}>
