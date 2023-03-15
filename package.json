@@ -4,8 +4,8 @@
     "description": "",
     "main": "index.js",
     "scripts": {
-        "start": "webpack serve --mode development",
-        "build": "webpack --mode production",
+        "start": "webpack serve --config webpack.dev.js",
+        "build": "webpack --config webpack.prod.js",
         "test": "jest",
         "lint": "eslint --ext .js,.jsx,.ts,.tsx src",
         "format": "prettier --write ."
@@ -65,6 +65,7 @@
         "react-highcharts": "^16.1.0",
         "react-router-dom": "^6.9.0",
         "recoil": "^0.7.7",
-        "sass": "^1.59.2"
+        "sass": "^1.59.2",
+        "webpack-merge": "^5.8.0"
     }
 }
