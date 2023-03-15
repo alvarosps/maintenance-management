@@ -3,6 +3,10 @@
     "version": "1.0.0",
     "description": "",
     "main": "index.js",
+    "engines": {
+        "node": "18.x",
+        "npm": "6.x"
+    },
     "scripts": {
         "start": "node server.js",
         "start:dev": "webpack serve --config webpack.dev.js",

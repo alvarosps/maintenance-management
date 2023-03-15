@@ -1,6 +1,6 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, Suspense } from 'react';
 import { BrowserRouter } from 'react-router-dom';
-import { Layout } from 'antd';
+import { Layout, Spin } from 'antd';
 import Router from './routes';
 import AppHeader from './components/AppHeader/AppHeader';
 import { companyListState, unitListState, userListState } from './recoil/atoms';
@@ -34,7 +34,9 @@ const App: React.FC = () => {
             <Layout className="layout">
                 <AppHeader />
                 <Content className="app-content">
-                    <Router />
+                    <Suspense fallback={<Spin size='large' style={{ justifyContent: 'center'}} />}>
+                        <Router />
+                    </Suspense>
                 </Content>
                 <Footer>Created by Alvaro Silva ©2023</Footer>
             </Layout>
