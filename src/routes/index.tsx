@@ -4,7 +4,7 @@ import Dashboard from '../pages/Dashboard/Dashboard';
 import UsersManagement from '../pages/UsersManagement/UsersManagement';
 import UnitManagement from '../pages/UnitManagement/UnitManagement';
 import CompanyManagement from '../pages/CompanyManagement/CompanyManagement';
-import WorkOrders from '../pages/Workorders/Workorders';
+import WorkOrders from '../pages/WorkOrders/WorkOrders';
 
 const Router = () => {
     return (

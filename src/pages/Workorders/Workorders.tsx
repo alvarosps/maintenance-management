@@ -4,8 +4,8 @@ import { pageTitleState, workOrderListState } from '../../recoil/atoms';
 import { createWorkOrder, deleteWorkOrder, getWorkOrders, updateWorkOrder } from '../../api/workOrders';
 import { Button, Col, Row, Typography } from 'antd';
 import { WorkOrder } from '../../types';
-import WorkorderCard from '../../components/WorkorderCard/WorkorderCard';
 import CreateWorkOrderModal from '../../components/CreateWorkOrderModal/CreateWorkOrderModal';
+import WorkorderCard from '../../components/WorkorderCard/WorkorderCard';
 
 const { Text } = Typography;
 
