@@ -1,5 +1,6 @@
 const express = require('express');
 const path = require('path');
+const config = require('./config');
 
 const app = express();
 const { PORT = 3000, LOCAL_ADDRESS = '0.0.0.0' } = process.env;
@@ -13,6 +14,6 @@ app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'dist', 'index.html'));
 });
 
-app.listen(PORT, LOCAL_ADDRESS, () => {
+app.listen(config.server.port, LOCAL_ADDRESS, () => {
   console.log(`Server is listening on port ${PORT}`);
 });
