@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button, Checkbox, Form, Input, Modal, Select } from 'antd';
-import { WorkOrder, Asset, User } from '../../types';
+import { WorkOrder } from '../../types';
 import { useRecoilValue } from 'recoil';
 import { assetListState, userListState } from '../../recoil/atoms';
 
