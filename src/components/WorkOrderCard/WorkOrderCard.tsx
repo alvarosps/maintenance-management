@@ -13,7 +13,7 @@ interface WorkOrderCardProps {
     onDelete: (data: WorkOrder) => void;
 }
 
-const WorkOrderCard: React.FC<WorkOrderCardProps> = ({ workOrder, onUpdate, onDelete }) => {
+const WorkorderCard: React.FC<WorkOrderCardProps> = ({ workOrder, onUpdate, onDelete }) => {
     const setAssetList = useSetRecoilState(assetListState);
 
     useEffect(() => {
@@ -250,4 +250,4 @@ const WorkOrderCard: React.FC<WorkOrderCardProps> = ({ workOrder, onUpdate, onDe
     );
 };
 
-export default React.memo(WorkOrderCard);
+export default React.memo(WorkorderCard);
