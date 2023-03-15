@@ -2,8 +2,7 @@ const express = require('express');
 const path = require('path');
 
 const app = express();
-const PORT = process.env.PORT || 3000;
-
+const { PORT = 3000, LOCAL_ADDRESS = '0.0.0.0' } = process.env;
 // Serve the static files from the React app
 app.use(express.static(path.join(__dirname, 'dist')));
 
@@ -12,10 +11,6 @@ app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'dist', 'index.html'));
 });
 
-app.listen(PORT, () => {
+app.listen(PORT, LOCAL_ADDRESS, () => {
   console.log(`Server is listening on port ${PORT}`);
 });
-
-// Set the server timeout
-const timeoutInMilliseconds = 30000; // 30 seconds, adjust the value as needed
-server.timeout = timeoutInMilliseconds;
