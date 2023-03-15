@@ -3,8 +3,8 @@ import { pageTitleState } from '../../recoil/atoms';
 import { useRecoilValue } from 'recoil';
 import { Button, Layout } from 'antd';
 import { MenuOutlined } from '@ant-design/icons';
-import './AppHeader.scss';
 import Navbar from '../Navbar/Navbar';
+import './AppHeader.scss';
 
 const { Header } = Layout;
 
