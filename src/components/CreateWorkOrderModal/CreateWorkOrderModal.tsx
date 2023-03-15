@@ -1,5 +1,6 @@
 import React from 'react';
-import { Button, Checkbox, Form, Input, Modal, Select } from 'antd';
+import { Button, Checkbox, Form, Input, Select } from 'antd';
+import Modal from 'antd/lib/modal/Modal';
 import { WorkOrder } from '../../types';
 import { useRecoilValue } from 'recoil';
 import { assetListState, userListState } from '../../recoil/atoms';
@@ -37,22 +38,28 @@ const CreateWorkOrderModal: React.FC<CreateWorkOrderModalProps> = ({ visible, on
 
     return (
         <Modal open={visible} title="Create new work order" onCancel={onCancel} onOk={handleSubmit} okText="Save">
-            <Form form={form} layout="vertical">
+            <Form form={form} layout="vertical" data-testid="create-work-order-form">
                 <Form.Item label="Title" name="title" rules={[{ required: true, message: 'Please input a title' }]}>
-                    <Input />
+                    <Input data-testid="title" />
                 </Form.Item>
                 <Form.Item
                     label="Description"
                     name="description"
                     rules={[{ required: true, message: 'Please input a description' }]}
                 >
-                    <Input.TextArea />
+                    <Input.TextArea data-testid="description" />
                 </Form.Item>
                 <Form.Item label="Status" name="status" rules={[{ required: true, message: 'Please select a status' }]}>
-                    <Select>
-                        <Option value="completed">Completed</Option>
-                        <Option value="in_progress">In Progress</Option>
-                        <Option value="pending">Pending</Option>
+                    <Select data-testid="status">
+                        <Option value="completed" data-testid="completed">
+                            Completed
+                        </Option>
+                        <Option value="in_progress" data-testid="inProgress">
+                            In Progress
+                        </Option>
+                        <Option value="pending" data-testid="pending">
+                            Pending
+                        </Option>
                     </Select>
                 </Form.Item>
                 <Form.Item
@@ -60,10 +67,16 @@ const CreateWorkOrderModal: React.FC<CreateWorkOrderModalProps> = ({ visible, on
                     name="priority"
                     rules={[{ required: true, message: 'Please select a priority' }]}
                 >
-                    <Select>
-                        <Option value="low">Low</Option>
-                        <Option value="medium">Medium</Option>
-                        <Option value="high">High</Option>
+                    <Select data-testid="priority">
+                        <Option value="low" data-testid="low">
+                            Low
+                        </Option>
+                        <Option value="medium" data-testid="medium">
+                            Medium
+                        </Option>
+                        <Option value="high" data-testid="high">
+                            High
+                        </Option>
                     </Select>
                 </Form.Item>
                 <Form.Item
@@ -71,9 +84,9 @@ const CreateWorkOrderModal: React.FC<CreateWorkOrderModalProps> = ({ visible, on
                     name="assignedUserIds"
                     rules={[{ required: true, message: 'Please select at least one user' }]}
                 >
-                    <Select mode="multiple">
+                    <Select mode="multiple" data-testid="assignedUsers">
                         {users.map((user) => (
-                            <Option key={user.id} value={user.id}>
+                            <Option key={user.id} value={user.id} data-testid={`user-${user.id}`}>
                                 {user.name}
                             </Option>
                         ))}
@@ -84,9 +97,9 @@ const CreateWorkOrderModal: React.FC<CreateWorkOrderModalProps> = ({ visible, on
                     name="assetId"
                     rules={[{ required: true, message: 'Please select an asset' }]}
                 >
-                    <Select>
+                    <Select data-testid="assetId">
                         {assets.map((asset) => (
-                            <Option key={asset.id} value={asset.id}>
+                            <Option key={asset.id} value={asset.id} data-testid={`asset-${asset.id}`}>
                                 {asset.name}
                             </Option>
                         ))}
@@ -103,18 +116,18 @@ const CreateWorkOrderModal: React.FC<CreateWorkOrderModalProps> = ({ visible, on
                                         name={[field.name, 'task']}
                                         rules={[{ required: true, message: 'Please input a task name' }]}
                                     >
-                                        <Input />
+                                        <Input data-testid="taskName" />
                                     </Form.Item>
                                     <Form.Item name={[field.name, 'completed']} valuePropName="checked">
-                                        <Checkbox>Completed</Checkbox>
+                                        <Checkbox data-testid="taskCompleted">Completed</Checkbox>
                                     </Form.Item>
-                                    <Button type="link" onClick={() => remove(field.name)}>
+                                    <Button type="link" onClick={() => remove(field.name)} data-testid="removeTask">
                                         Remove
                                     </Button>
                                 </Form.Item>
                             ))}
                             <Form.Item>
-                                <Button type="dashed" onClick={() => add()} block>
+                                <Button type="dashed" onClick={() => add()} block data-testid="addTask">
                                     Add Task
                                 </Button>
                             </Form.Item>

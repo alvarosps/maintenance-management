@@ -1,40 +1,39 @@
 {
     "presets": [
-      [
-        "@babel/preset-env",
-        {
-          "targets": "> 0.25%, not dead",
-          "useBuiltIns": "entry",
-          "corejs": 3
-        }
-      ],
-      "@babel/preset-typescript",
-      "@babel/preset-react"
+        [
+            "@babel/preset-env",
+            {
+                "targets": "> 0.25%, not dead",
+                "useBuiltIns": "entry",
+                "corejs": 3
+            }
+        ],
+        "@babel/preset-typescript",
+        "@babel/preset-react"
     ],
     "plugins": [
-      "@babel/plugin-transform-runtime",
-      "@babel/plugin-proposal-class-properties",
-      [
-        "transform-react-remove-prop-types",
-        {
-          "mode": "wrap",
-          "ignoreFilenames": ["node_modules"]
-        }
-      ],
-      "babel-plugin-styled-components"
+        "@babel/plugin-transform-runtime",
+        "@babel/plugin-proposal-class-properties",
+        [
+            "transform-react-remove-prop-types",
+            {
+                "mode": "wrap",
+                "ignoreFilenames": ["node_modules"]
+            }
+        ],
+        "babel-plugin-styled-components"
     ],
     "env": {
-      "production": {
-        "plugins": [
-          [
-            "babel-plugin-transform-react-remove-prop-types",
-            {
-              "removeImport": true
-            }
-          ],
-          "babel-plugin-transform-react-constant-elements"
-        ]
-      }
+        "production": {
+            "plugins": [
+                [
+                    "babel-plugin-transform-react-remove-prop-types",
+                    {
+                        "removeImport": true
+                    }
+                ],
+                "babel-plugin-transform-react-constant-elements"
+            ]
+        }
     }
-  }
-  
+}

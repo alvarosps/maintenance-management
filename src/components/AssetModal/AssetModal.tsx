@@ -7,7 +7,7 @@ import './AssetModal.scss';
 import { useRecoilValue } from 'recoil';
 import { companyListState, unitListState, userListState } from '../../recoil/atoms';
 
-type AssetModalProps = {
+export type AssetModalProps = {
     visible: boolean;
     asset: Asset | undefined;
     onCancel: () => void;

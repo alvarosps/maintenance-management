@@ -45,7 +45,7 @@ const UserCard: React.FC<UserCardProps> = ({ user, onUpdate, onDelete }) => {
             data={user}
             titleKey="name"
             renderContent={(user: User) => (
-                <div className="card-data">
+                <div className="card-data" data-testid="user-card">
                     {!editable && (
                         <>
                             <div>
@@ -78,7 +78,7 @@ const UserCard: React.FC<UserCardProps> = ({ user, onUpdate, onDelete }) => {
                                 name="name"
                                 rules={[{ required: true, message: 'Please input a name' }]}
                             >
-                                <Input />
+                                <Input data-testid="name-input" />
                             </Form.Item>
                             <Form.Item
                                 label="Company"
@@ -117,19 +117,28 @@ const UserCard: React.FC<UserCardProps> = ({ user, onUpdate, onDelete }) => {
                     )}
                     <div className="card-buttons">
                         {!editable && (
-                            <Button type="primary" onClick={() => setEditable(true)}>
+                            <Button type="primary" onClick={() => setEditable(true)} data-testid="edit-button">
                                 Edit
                             </Button>
                         )}
                         {editable && (
                             <>
-                                <Button type="primary" onClick={handleSave}>
+                                <Button type="primary" onClick={handleSave} data-testid="save-button">
                                     Save
                                 </Button>
-                                <Button danger icon={<DeleteOutlined />} onClick={handleDelete}>
+                                <Button
+                                    danger
+                                    icon={<DeleteOutlined />}
+                                    onClick={handleDelete}
+                                    data-testid="delete-button"
+                                >
                                     Delete
                                 </Button>
-                                <Button style={{ marginLeft: 8 }} onClick={() => setEditable(false)}>
+                                <Button
+                                    style={{ marginLeft: 8 }}
+                                    onClick={() => setEditable(false)}
+                                    data-testid="cancel-button"
+                                >
                                     Cancel
                                 </Button>
                             </>

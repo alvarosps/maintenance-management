@@ -2,7 +2,7 @@ import React from 'react';
 import { Card } from 'antd';
 import './DataCard.scss';
 
-interface DataCardProps<T> {
+export interface DataCardProps<T> {
     data: T;
     titleKey: keyof T;
     renderContent: (data: T) => React.ReactNode;

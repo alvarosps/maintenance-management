@@ -2,7 +2,7 @@ import React from 'react';
 import { Switch } from 'antd';
 import './ToggleSwitch.scss';
 
-type ToggleSwitchProps = {
+export type ToggleSwitchProps = {
     checked: boolean;
     handleChange: (checked: boolean) => void;
     leftText: string;

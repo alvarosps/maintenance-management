@@ -3,12 +3,12 @@ import { Input, Select } from 'antd';
 
 const { Option } = Select;
 
-interface Options {
+export interface Options {
     text: string;
     value: string;
 }
 
-type EditableFieldProps = {
+export type EditableFieldProps = {
     field: string;
     value: string;
     editing: boolean;

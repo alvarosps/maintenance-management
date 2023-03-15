@@ -34,7 +34,7 @@ const App: React.FC = () => {
             <Layout className="layout">
                 <AppHeader />
                 <Content className="app-content">
-                    <Suspense fallback={<Spin size='large' style={{ justifyContent: 'center'}} />}>
+                    <Suspense fallback={<Spin size="large" style={{ justifyContent: 'center' }} />}>
                         <Router />
                     </Suspense>
                 </Content>
