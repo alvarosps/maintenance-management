@@ -57,48 +57,54 @@ const CompanyManagement: React.FC = () => {
     const onUpdate = useCallback(async (updatedCompany: Company) => {
         try {
             const updatedData = await updateCompany(updatedCompany.id, updatedCompany);
-        setCompanies((oldCompanies) => oldCompanies.map((company) => (company.id === updatedCompany.id ? updatedData : company)));
+            setCompanies((oldCompanies) =>
+                oldCompanies.map((company) => (company.id === updatedCompany.id ? updatedData : company)),
+            );
         } catch (e) {
             setError('An error occurred while updating a company. For more details, check the logs.');
             console.warn('Error while updating a company', e);
         }
     }, []);
 
-    const onDelete = useCallback(async (companyToDelete: Company) => {
-        try {
-            setCompanyWasDeleted(true);
-            await deleteCompany(companyToDelete.id);
-            setCompanies(companies.filter((company) => company.id !== companyToDelete.id));
-        } catch (e) {
-            setError('An error occurred while deleting a company. For more details, check the logs.');
-            console.warn('Error while deleting company', e);
-        }
-    }, [companies]);
+    const onDelete = useCallback(
+        async (companyToDelete: Company) => {
+            try {
+                setCompanyWasDeleted(true);
+                await deleteCompany(companyToDelete.id);
+                setCompanies(companies.filter((company) => company.id !== companyToDelete.id));
+            } catch (e) {
+                setError('An error occurred while deleting a company. For more details, check the logs.');
+                console.warn('Error while deleting company', e);
+            }
+        },
+        [companies],
+    );
 
     return (
         <div className="component-content" style={{ justifyContent: 'center' }}>
             {error && (
-                <div className='error-message'>
+                <div className="error-message">
                     <Text type="danger">{error}</Text>
                 </div>
             )}
-            <div className='create-data-button'>
+            <div className="create-data-button">
                 <Button type="primary" onClick={handleCreateCompany}>
                     Create User
                 </Button>
             </div>
             {companies.length > 0 && (
-            <Row gutter={[16, 16]} justify="center">
-                {companies.map((company) => (
-                    <Col key={company.id} xs={24} sm={12} md={8} lg={6} xl={4}>
-                        <CompanyCard company={company} onUpdate={onUpdate} onDelete={onDelete} />
-                    </Col>
-                ))}
-            </Row>)}
+                <Row gutter={[16, 16]} justify="center">
+                    {companies.map((company) => (
+                        <Col key={company.id} xs={24} sm={12} md={8} lg={6} xl={4}>
+                            <CompanyCard company={company} onUpdate={onUpdate} onDelete={onDelete} />
+                        </Col>
+                    ))}
+                </Row>
+            )}
             {companies.length === 0 && (
                 <h3 style={{ textAlign: 'center' }}>No companies were found! Maybe create one?</h3>
             )}
-            <CreateDataModal dataType='company' visible={isCreateModalOpen} onCancel={onCancelCreate} onSave={onSave} /> 
+            <CreateDataModal dataType="company" visible={isCreateModalOpen} onCancel={onCancelCreate} onSave={onSave} />
         </div>
     );
 };

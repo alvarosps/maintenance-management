@@ -28,7 +28,7 @@ const App: React.FC = () => {
 
         fetchData();
     }, [setCompanyList, setUnitList, setUserList]);
-    
+
     return (
         <BrowserRouter>
             <Layout className="layout">

@@ -45,8 +45,13 @@ const UnitCard: React.FC<UnitCardProps> = ({ unit, onUpdate, onDelete }) => {
                 <div className="card-data">
                     {!editable && (
                         <>
-                            <div>Name: {unit.name}</div>
-                            <div>Company: {companies.find(company => company.id === unit.companyId)?.name}</div>
+                            <div>
+                                <strong>Name:</strong> {unit.name}
+                            </div>
+                            <div>
+                                <strong>Company:</strong>{' '}
+                                {companies.find((company) => company.id === unit.companyId)?.name}
+                            </div>
                         </>
                     )}
                     {editable && (
@@ -58,7 +63,11 @@ const UnitCard: React.FC<UnitCardProps> = ({ unit, onUpdate, onDelete }) => {
                             >
                                 <Input />
                             </Form.Item>
-                            <Form.Item label="Company" name="companyId" rules={[{ required: true, message: 'Please select a company' }]}>
+                            <Form.Item
+                                label="Company"
+                                name="companyId"
+                                rules={[{ required: true, message: 'Please select a company' }]}
+                            >
                                 <Select>
                                     {companies.map((company) => (
                                         <Option key={company.id} value={company.id}>

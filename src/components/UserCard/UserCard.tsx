@@ -48,14 +48,31 @@ const UserCard: React.FC<UserCardProps> = ({ user, onUpdate, onDelete }) => {
                 <div className="card-data">
                     {!editable && (
                         <>
-                            <div>Name: {user.name}</div>
-                            <div>Email: {user.email}</div>
-                            <div>Company: {companies.find(company => company.id === user.companyId)?.name}</div>
-                            <div>Unit: {units.find(unit => unit.id === user.unitId)?.name}</div>
+                            <div>
+                                <strong>Name:</strong> {user.name}
+                            </div>
+                            <div>
+                                <strong>Email:</strong> {user.email}
+                            </div>
+                            <div>
+                                <strong>Company:</strong>{' '}
+                                {companies.find((company) => company.id === user.companyId)?.name}
+                            </div>
+                            <div>
+                                <strong>Unit:</strong> {units.find((unit) => unit.id === user.unitId)?.name}
+                            </div>
                         </>
                     )}
                     {editable && (
-                        <Form form={form} initialValues={{ name: user.name, email: user.email, companyId: user.companyId, unitId: user.unitId }}>
+                        <Form
+                            form={form}
+                            initialValues={{
+                                name: user.name,
+                                email: user.email,
+                                companyId: user.companyId,
+                                unitId: user.unitId,
+                            }}
+                        >
                             <Form.Item
                                 label="Name"
                                 name="name"
@@ -63,7 +80,11 @@ const UserCard: React.FC<UserCardProps> = ({ user, onUpdate, onDelete }) => {
                             >
                                 <Input />
                             </Form.Item>
-                            <Form.Item label="Company" name="companyId" rules={[{ required: true, message: 'Please select a company' }]}>
+                            <Form.Item
+                                label="Company"
+                                name="companyId"
+                                rules={[{ required: true, message: 'Please select a company' }]}
+                            >
                                 <Select>
                                     {companies.map((company) => (
                                         <Option key={company.id} value={company.id}>
@@ -72,7 +93,11 @@ const UserCard: React.FC<UserCardProps> = ({ user, onUpdate, onDelete }) => {
                                     ))}
                                 </Select>
                             </Form.Item>
-                            <Form.Item label="Unit" name="unitId" rules={[{ required: true, message: 'Please select a unit' }]}>
+                            <Form.Item
+                                label="Unit"
+                                name="unitId"
+                                rules={[{ required: true, message: 'Please select a unit' }]}
+                            >
                                 <Select>
                                     {units.map((unit) => (
                                         <Option key={unit.id} value={unit.id}>
@@ -81,8 +106,12 @@ const UserCard: React.FC<UserCardProps> = ({ user, onUpdate, onDelete }) => {
                                     ))}
                                 </Select>
                             </Form.Item>
-                            <Form.Item label="Email" name="email" rules={[{ required: true, message: 'Please input a valid email' }]}>
-                                <Input type='email' />
+                            <Form.Item
+                                label="Email"
+                                name="email"
+                                rules={[{ required: true, message: 'Please input a valid email' }]}
+                            >
+                                <Input type="email" />
                             </Form.Item>
                         </Form>
                     )}

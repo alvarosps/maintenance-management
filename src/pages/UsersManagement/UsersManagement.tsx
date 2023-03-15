@@ -64,41 +64,43 @@ const UsersManagement: React.FC = () => {
         }
     }, []);
 
-    const onDelete = useCallback(async (userToDelete: User) => {
-        try {
-            setUserWasDeleted(true);
-            await deleteUser(userToDelete.id);
-            setUsers(users.filter((user) => user.id !== userToDelete.id));
-        } catch (error) {
-            setError('An error occurred while deleting an user. For more details, check the logs.');
-            console.warn('Error while deleting user', error);
-        }
-    }, [users]);
+    const onDelete = useCallback(
+        async (userToDelete: User) => {
+            try {
+                setUserWasDeleted(true);
+                await deleteUser(userToDelete.id);
+                setUsers(users.filter((user) => user.id !== userToDelete.id));
+            } catch (error) {
+                setError('An error occurred while deleting an user. For more details, check the logs.');
+                console.warn('Error while deleting user', error);
+            }
+        },
+        [users],
+    );
 
     return (
         <div className="component-content" style={{ justifyContent: 'center' }}>
             {error && (
-                <div className='error-message'>
+                <div className="error-message">
                     <Text type="danger">{error}</Text>
                 </div>
             )}
-            <div className='create-data-button'>
+            <div className="create-data-button">
                 <Button type="primary" onClick={handleCreateUser}>
                     Create User
                 </Button>
             </div>
             {users.length > 0 && (
-            <Row gutter={[16, 16]} justify="center">
-                {users.map((user) => (
-                    <Col key={user.id} xs={24} sm={12} md={8} lg={6} xl={4}>
-                        <UserCard user={user} onUpdate={onUpdate} onDelete={onDelete} />
-                    </Col>
-                ))}
-            </Row>)}
-            {users.length === 0 && (
-                <h3 style={{ textAlign: 'center' }}>No users were found! Maybe create one?</h3>
+                <Row gutter={[16, 16]} justify="center">
+                    {users.map((user) => (
+                        <Col key={user.id} xs={24} sm={12} md={8} lg={6} xl={4}>
+                            <UserCard user={user} onUpdate={onUpdate} onDelete={onDelete} />
+                        </Col>
+                    ))}
+                </Row>
             )}
-            <CreateDataModal dataType='user' visible={isCreateModalOpen} onCancel={onCancelCreate} onSave={onSave} /> 
+            {users.length === 0 && <h3 style={{ textAlign: 'center' }}>No users were found! Maybe create one?</h3>}
+            <CreateDataModal dataType="user" visible={isCreateModalOpen} onCancel={onCancelCreate} onSave={onSave} />
         </div>
     );
 };

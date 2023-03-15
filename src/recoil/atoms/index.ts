@@ -1,5 +1,5 @@
 import { atom } from 'recoil';
-import { Asset, Company, Unit, User } from '../../types';
+import { Asset, Company, Unit, User, WorkOrder } from '../../types';
 
 export const pageTitleState = atom<string>({
     key: 'pageTitleState',
@@ -23,5 +23,10 @@ export const unitListState = atom<Unit[]>({
 
 export const companyListState = atom<Company[]>({
     key: 'companyList',
+    default: [],
+});
+
+export const workOrderListState = atom<WorkOrder[]>({
+    key: 'workOrderList',
     default: [],
 });

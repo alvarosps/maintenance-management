@@ -9,25 +9,24 @@ const { Option } = Select;
 interface BaseCreateDataModalProps {
     visible: boolean;
     onCancel: () => void;
-  }
-  
-  interface CreateCompanyModalProps extends BaseCreateDataModalProps {
+}
+
+interface CreateCompanyModalProps extends BaseCreateDataModalProps {
     dataType: 'company';
     onSave: (data: Company) => void;
-  }
-  
-  interface CreateUnitModalProps extends BaseCreateDataModalProps {
+}
+
+interface CreateUnitModalProps extends BaseCreateDataModalProps {
     dataType: 'unit';
     onSave: (data: Unit) => void;
-  }
-  
-  interface CreateUserModalProps extends BaseCreateDataModalProps {
+}
+
+interface CreateUserModalProps extends BaseCreateDataModalProps {
     dataType: 'user';
     onSave: (data: User) => void;
-  }
-  
-  type CreateDataModalProps = CreateCompanyModalProps | CreateUnitModalProps | CreateUserModalProps;
-  
+}
+
+type CreateDataModalProps = CreateCompanyModalProps | CreateUnitModalProps | CreateUserModalProps;
 
 const CreateDataModal: React.FC<CreateDataModalProps> = (props: CreateDataModalProps) => {
     const { dataType, visible, onCancel, onSave } = props;
@@ -38,7 +37,7 @@ const CreateDataModal: React.FC<CreateDataModalProps> = (props: CreateDataModalP
     const handleSubmit = () => {
         form.validateFields().then((values) => {
             let newData: Company | Unit | User;
-    
+
             if (dataType === 'company') {
                 newData = { id: 0, name: values.name } as Company;
                 onSave(newData as Company);
@@ -57,11 +56,10 @@ const CreateDataModal: React.FC<CreateDataModalProps> = (props: CreateDataModalP
             } else {
                 throw new Error('Invalid data type');
             }
-    
+
             form.resetFields();
         });
     };
-    
 
     return (
         <Modal open={visible} title={`Create new ${dataType}`} onCancel={onCancel} onOk={handleSubmit} okText="Save">
@@ -70,7 +68,11 @@ const CreateDataModal: React.FC<CreateDataModalProps> = (props: CreateDataModalP
                     <Input />
                 </Form.Item>
                 {(dataType === 'unit' || dataType === 'user') && (
-                    <Form.Item label="Company ID" name="companyId" rules={[{ required: true, message: 'Please select a company' }]}>
+                    <Form.Item
+                        label="Company ID"
+                        name="companyId"
+                        rules={[{ required: true, message: 'Please select a company' }]}
+                    >
                         <Select>
                             {companies.map((company) => (
                                 <Option key={company.id} value={company.id}>
@@ -82,7 +84,11 @@ const CreateDataModal: React.FC<CreateDataModalProps> = (props: CreateDataModalP
                 )}
                 {dataType === 'user' && (
                     <>
-                        <Form.Item label="Unit ID" name="unitId" rules={[{ required: true, message: 'Please select a unit' }]}>
+                        <Form.Item
+                            label="Unit ID"
+                            name="unitId"
+                            rules={[{ required: true, message: 'Please select a unit' }]}
+                        >
                             <Select>
                                 {units.map((unit) => (
                                     <Option key={unit.id} value={unit.id}>
@@ -91,14 +97,18 @@ const CreateDataModal: React.FC<CreateDataModalProps> = (props: CreateDataModalP
                                 ))}
                             </Select>
                         </Form.Item>
-                        <Form.Item label="Email" name="email" rules={[{ required: true, message: 'Please input a email' }]}>
-                            <Input type='email' />
+                        <Form.Item
+                            label="Email"
+                            name="email"
+                            rules={[{ required: true, message: 'Please input a email' }]}
+                        >
+                            <Input type="email" />
                         </Form.Item>
                     </>
                 )}
             </Form>
         </Modal>
-    )
-}
+    );
+};
 
 export default React.memo(CreateDataModal);

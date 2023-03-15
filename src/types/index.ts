@@ -47,3 +47,19 @@ export type Company = {
     id: number;
     name: string;
 };
+
+export type ChecklistItem = {
+    completed: boolean;
+    task: string;
+};
+
+export type WorkOrder = {
+    assetId: number;
+    assignedUserIds: number[];
+    checklist: ChecklistItem[];
+    description: string;
+    id: number;
+    priority: 'low' | 'medium' | 'high';
+    status: string;
+    title: string;
+};

@@ -202,7 +202,7 @@ const Dashboard: React.FC = () => {
             {areGraphsOptionsLoaded && (
                 <>
                     {error && (
-                        <div className='error-message'>
+                        <div className="error-message">
                             <Text type="danger">{error}</Text>
                         </div>
                     )}
@@ -225,21 +225,23 @@ const Dashboard: React.FC = () => {
                                 Create new Asset
                             </Button>
                         </div>
-                        {assetList.length > 0 && (<Row gutter={[16, 16]} className="details-list">
-                            {assetList.map((asset, index) => (
-                                <Col xs={8} md={4} key={`asset-${index}`}>
-                                    <Card
-                                        className="asset-detail"
-                                        onClick={() => {
-                                            setSelectedAsset(asset);
-                                            setIsModalOpen(true);
-                                        }}
-                                    >
-                                        {asset.name}
-                                    </Card>
-                                </Col>
-                            ))}
-                        </Row>)}
+                        {assetList.length > 0 && (
+                            <Row gutter={[16, 16]} className="details-list">
+                                {assetList.map((asset, index) => (
+                                    <Col xs={8} md={4} key={`asset-${index}`}>
+                                        <Card
+                                            className="asset-detail"
+                                            onClick={() => {
+                                                setSelectedAsset(asset);
+                                                setIsModalOpen(true);
+                                            }}
+                                        >
+                                            {asset.name}
+                                        </Card>
+                                    </Col>
+                                ))}
+                            </Row>
+                        )}
                         {assetList.length === 0 && (
                             <h3 style={{ textAlign: 'center' }}>No Assets were found, maybe create one?</h3>
                         )}

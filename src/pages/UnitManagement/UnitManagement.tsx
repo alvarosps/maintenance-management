@@ -64,41 +64,43 @@ const UnitManagement: React.FC = () => {
         }
     }, []);
 
-    const onDelete = useCallback(async (unitToDelete: Unit) => {
-        try {
-            setUnitWasDeleted(true);
-            await deleteUnit(unitToDelete.id);
-            setUnits(units.filter((unit) => unit.id !== unitToDelete.id));
-        } catch (e) {
-            setError('An error occurred while deleting an unit. For more details, check the logs.');
-            console.warn('Error while deleting unit', e);
-        }
-    }, [units]);
+    const onDelete = useCallback(
+        async (unitToDelete: Unit) => {
+            try {
+                setUnitWasDeleted(true);
+                await deleteUnit(unitToDelete.id);
+                setUnits(units.filter((unit) => unit.id !== unitToDelete.id));
+            } catch (e) {
+                setError('An error occurred while deleting an unit. For more details, check the logs.');
+                console.warn('Error while deleting unit', e);
+            }
+        },
+        [units],
+    );
 
     return (
         <div className="component-content" style={{ justifyContent: 'center' }}>
             {error && (
-                <div className='error-message'>
+                <div className="error-message">
                     <Text type="danger">{error}</Text>
                 </div>
             )}
-            <div className='create-data-button'>
+            <div className="create-data-button">
                 <Button type="primary" onClick={handleCreateUnit}>
                     Create User
                 </Button>
             </div>
             {units.length > 0 && (
-            <Row gutter={[16, 16]} justify="center">
-                {units.map((unit) => (
-                    <Col key={unit.id} xs={24} sm={12} md={8} lg={6} xl={4}>
-                        <UnitCard unit={unit} onUpdate={onUpdate} onDelete={onDelete} />
-                    </Col>
-                ))}
-            </Row>)}
-            {units.length === 0 && (
-                <h3 style={{ textAlign: 'center' }}>No units were found! Maybe create one?</h3>
+                <Row gutter={[16, 16]} justify="center">
+                    {units.map((unit) => (
+                        <Col key={unit.id} xs={24} sm={12} md={8} lg={6} xl={4}>
+                            <UnitCard unit={unit} onUpdate={onUpdate} onDelete={onDelete} />
+                        </Col>
+                    ))}
+                </Row>
             )}
-            <CreateDataModal dataType='unit' visible={isCreateModalOpen} onCancel={onCancelCreate} onSave={onSave} /> 
+            {units.length === 0 && <h3 style={{ textAlign: 'center' }}>No units were found! Maybe create one?</h3>}
+            <CreateDataModal dataType="unit" visible={isCreateModalOpen} onCancel={onCancelCreate} onSave={onSave} />
         </div>
     );
 };

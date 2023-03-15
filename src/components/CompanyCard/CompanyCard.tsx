@@ -37,7 +37,11 @@ const CompanyCard: React.FC<CompanyCardProps> = ({ company, onUpdate, onDelete }
             titleKey="name"
             renderContent={(company: Company) => (
                 <div className="card-data">
-                    {!editable && <span>Name: {company.name}</span>}
+                    {!editable && (
+                        <span>
+                            <strong>Name:</strong> {company.name}
+                        </span>
+                    )}
                     {editable && (
                         <Form form={form} initialValues={{ name: company.name }}>
                             <Form.Item
