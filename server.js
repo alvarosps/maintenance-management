@@ -15,3 +15,7 @@ app.get('*', (req, res) => {
 app.listen(PORT, () => {
   console.log(`Server is listening on port ${PORT}`);
 });
+
+// Set the server timeout
+const timeoutInMilliseconds = 30000; // 30 seconds, adjust the value as needed
+server.timeout = timeoutInMilliseconds;
