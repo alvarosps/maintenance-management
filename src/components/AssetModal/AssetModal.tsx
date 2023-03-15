@@ -63,6 +63,7 @@ const AssetModal: React.FC<AssetModalProps> = (props: AssetModalProps) => {
                 .map((user) => user.name);
             return userNames.join(', ');
         }
+        return '';
     }, [asset]);
 
     const showCompanyName = useCallback(() => {
@@ -70,6 +71,7 @@ const AssetModal: React.FC<AssetModalProps> = (props: AssetModalProps) => {
             const company = companies.find((company) => company.id === asset.companyId);
             return company?.name;
         }
+        return '';
     }, [asset]);
 
     const showUnitsNames = useCallback(() => {
@@ -77,6 +79,7 @@ const AssetModal: React.FC<AssetModalProps> = (props: AssetModalProps) => {
             const unit = units.find((unit) => unit.id === asset.unitId);
             return unit?.name;
         }
+        return '';
     }, [asset]);
 
     return (
