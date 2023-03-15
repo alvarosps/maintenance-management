@@ -3,6 +3,8 @@ const path = require('path');
 
 const app = express();
 const { PORT = 3000, LOCAL_ADDRESS = '0.0.0.0' } = process.env;
+console.log('PORT', PORT);
+console.log('LOCAL_ADDRESS', LOCAL_ADDRESS);
 // Serve the static files from the React app
 app.use(express.static(path.join(__dirname, 'dist')));
 
