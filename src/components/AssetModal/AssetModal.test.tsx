@@ -79,7 +79,7 @@ beforeAll(() => {
 });
 
 describe('AssetModal', () => {
-    it('renders the AssetModal with correct asset details', () => {
+    test('renders the AssetModal with correct asset details', () => {
         renderAssetModal();
 
         expect(screen.getByRole('dialog')).toBeInTheDocument();
@@ -106,7 +106,7 @@ describe('AssetModal', () => {
         expect(updateButton).toBeInTheDocument();
     });
 
-    it('updates the status when Update Status button is clicked and Save is clicked', () => {
+    test('updates the status when Update Status button is clicked and Save is clicked', () => {
         const onSave = jest.fn();
         renderAssetModal({ onSave });
 
@@ -119,7 +119,7 @@ describe('AssetModal', () => {
         expect(onSave).toHaveBeenCalledTimes(1);
     });
 
-    it('does not update the status when Update Status button is clicked and Cancel is clicked', () => {
+    test('does not update the status when Update Status button is clicked and Cancel is clicked', () => {
         const onSave = jest.fn();
         renderAssetModal({ onSave });
 
@@ -132,7 +132,7 @@ describe('AssetModal', () => {
         expect(onSave).toHaveBeenCalledTimes(0);
     });
 
-    it('calls onDelete when Delete button is clicked', () => {
+    test('calls onDelete when Delete button is clicked', () => {
         const onDelete = jest.fn();
         renderAssetModal({ onDelete });
 

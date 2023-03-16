@@ -62,14 +62,14 @@ describe('CompanyManagement', () => {
         jest.clearAllMocks();
     });
 
-    it('renders company cards for existing companies', () => {
+    test('renders company cards for existing companies', () => {
         const { getAllByText } = renderCompanyManagement();
 
         expect(getAllByText('Company A').length).toBeGreaterThan(0);
         expect(getAllByText('Company B').length).toBeGreaterThan(0);
     });
 
-    it('opens and closes the create company modal', async () => {
+    test('opens and closes the create company modal', async () => {
         const { getByText, queryByRole } = renderCompanyManagement();
 
         fireEvent.click(getByText('Create User'));
@@ -79,7 +79,7 @@ describe('CompanyManagement', () => {
         await waitFor(() => expect(queryByRole('dialog')).not.toBeInTheDocument());
     });
 
-    it('creates, updates a company', async () => {
+    test('creates, updates a company', async () => {
         const { getByText, getAllByText, getByLabelText, findAllByText } = renderCompanyManagement();
 
         // Create a company

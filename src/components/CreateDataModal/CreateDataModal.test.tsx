@@ -29,7 +29,7 @@ describe('CreateDataModal', () => {
         );
     };
 
-    it('calls onSave with the new company when clicking save button', async () => {
+    test('calls onSave with the new company when clicking save button', async () => {
         const mockOnSave = jest.fn();
         const { getByText, getByLabelText } = renderCreateDataModal('company', mockOnSave);
 
@@ -44,7 +44,7 @@ describe('CreateDataModal', () => {
         expect(mockOnSave).toHaveBeenCalledWith(expect.objectContaining(expectedCompany));
     });
 
-    it('calls onCancel when clicking cancel button', () => {
+    test('calls onCancel when clicking cancel button', () => {
         const mockOnCancel = jest.fn();
         const { getByText } = render(
             <RecoilRoot>

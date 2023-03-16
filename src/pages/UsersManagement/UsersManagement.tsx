@@ -94,7 +94,7 @@ const UsersManagement: React.FC = () => {
                 <Row gutter={[16, 16]} justify="center">
                     {users.map((user) => (
                         <Col key={user.id} xs={24} sm={12} md={8} lg={6} xl={4}>
-                            <UserCard user={user} onUpdate={onUpdate} onDelete={onDelete} />
+                            <UserCard user={user} onUpdate={onUpdate} onDelete={onDelete} data-testid="user-card" />
                         </Col>
                     ))}
                 </Row>

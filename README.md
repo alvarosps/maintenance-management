@@ -24,7 +24,7 @@ To run the application in development mode, use the following command:
 
 `npm run start:dev`
 
-The application will be accessible at http://localhost:3000.
+The application will be accessible at http://localhost:8080.
 
 ## Building the Application
 

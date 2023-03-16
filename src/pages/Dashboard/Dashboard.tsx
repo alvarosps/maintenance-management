@@ -206,7 +206,7 @@ const Dashboard: React.FC = () => {
                             <Text type="danger">{error}</Text>
                         </div>
                     )}
-                    <Card className="assets-graphs">
+                    <Card className={!error ? 'assets-graphs' : 'hidden'}>
                         <ToggleSwitch
                             checked={switchChecked}
                             handleChange={handleSwitchChange}
@@ -218,7 +218,7 @@ const Dashboard: React.FC = () => {
                             <HighchartsReact highcharts={Highcharts} options={healthScoreChartOptions} />
                         )}
                     </Card>
-                    <div className="assets-details">
+                    <div className={!error ? 'assets-details' : 'hidden'}>
                         <div className="assets-details-header">
                             <h3>Click on the Asset for Details</h3>
                             <Button type="primary" onClick={openCreateModal}>
@@ -228,7 +228,7 @@ const Dashboard: React.FC = () => {
                         {assetList.length > 0 && (
                             <Row gutter={[16, 16]} className="details-list">
                                 {assetList.map((asset, index) => (
-                                    <Col xs={8} md={4} key={`asset-${index}`}>
+                                    <Col xs={8} md={4} key={`asset-${index}`} data-testid="asset-card">
                                         <Card
                                             className="asset-detail"
                                             onClick={() => {

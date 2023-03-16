@@ -96,14 +96,14 @@ const WorkOrders: React.FC = () => {
             {workOrders.length > 0 && (
                 <Row gutter={[16, 16]} justify="center">
                     {workOrders.map((workOrder) => (
-                        <Col key={workOrder.title} xs={24} sm={12} md={8} lg={6} xl={4}>
+                        <Col key={workOrder.title} xs={24} sm={12} md={8} lg={6} xl={4} data-testid="workorder-card">
                             <WorkorderCard workOrder={workOrder} onUpdate={onUpdate} onDelete={onDelete} />
                         </Col>
                     ))}
                 </Row>
             )}
             {workOrders.length === 0 && (
-                <h3 style={{ textAlign: 'center' }}>No work orders were found! Maybe create one?</h3>
+                <h3 style={{ textAlign: 'center' }}>No workorders were found! Maybe create one?</h3>
             )}
             <CreateWorkOrderModal visible={isCreateModalOpen} onCancel={onCancelCreate} onSave={onSave} />
         </div>

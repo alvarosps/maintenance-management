@@ -1,4 +1,3 @@
-// src/App.test.tsx
 import { render, act, waitFor } from '@testing-library/react';
 import { RecoilRoot } from 'recoil';
 import App from './App';
@@ -17,7 +16,7 @@ beforeAll(() => {
 });
 
 describe('App component', () => {
-    it('renders without crashing', async () => {
+    test('renders without crashing', async () => {
         await act(async () => {
             const { container } = render(
                 <RecoilRoot>

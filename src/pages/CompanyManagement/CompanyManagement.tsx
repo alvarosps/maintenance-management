@@ -95,7 +95,7 @@ const CompanyManagement: React.FC = () => {
             {companies.length > 0 && (
                 <Row gutter={[16, 16]} justify="center">
                     {companies.map((company) => (
-                        <Col key={company.id} xs={24} sm={12} md={8} lg={6} xl={4}>
+                        <Col key={company.id} xs={24} sm={12} md={8} lg={6} xl={4} data-testid="company-card">
                             <CompanyCard company={company} onUpdate={onUpdate} onDelete={onDelete} />
                         </Col>
                     ))}

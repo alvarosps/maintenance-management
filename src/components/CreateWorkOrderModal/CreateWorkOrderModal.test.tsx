@@ -71,7 +71,7 @@ describe('CreateWorkOrderModal', () => {
         expect(getByText('Create new work order')).toBeInTheDocument();
     });
 
-    //   it('creates a new work order', async () => {
+    //   test('creates a new work order', async () => {
     //     const onSave = jest.fn();
 
     //     render(

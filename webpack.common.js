@@ -1,6 +1,7 @@
 // webpack.common.js
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const CopyWebpackPlugin = requier('copy-webpack-plugin');
 
 module.exports = {
     entry: './src/index.tsx',
@@ -28,6 +29,9 @@ module.exports = {
     plugins: [
         new HtmlWebpackPlugin({
             template: 'public/index.html',
+        }),
+        new CopyWebpackPlugin({
+            patterns: [{ from: 'public/_redirects', to: './' }],
         }),
     ],
     cache: false,

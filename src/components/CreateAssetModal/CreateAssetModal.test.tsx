@@ -54,17 +54,17 @@ describe('CreateAssetModal', () => {
         jest.clearAllMocks();
     });
 
-    it('renders CreateAssetModal', () => {
+    test('renders CreateAssetModal', () => {
         const { getByText } = renderCreateAssetModal(true);
         expect(getByText('Create Asset')).toBeInTheDocument();
     });
 
-    it('does not render CreateAssetModal when not visible', () => {
+    test('does not render CreateAssetModal when not visible', () => {
         const { queryByText } = renderCreateAssetModal(false);
         expect(queryByText('Create Asset')).not.toBeInTheDocument();
     });
 
-    it('displays all form fields and populates dropdowns with values', async () => {
+    test('displays all form fields and populates dropdowns with values', async () => {
         const { getByLabelText, getByText } = renderCreateAssetModal(true);
 
         // Checking for form fields
@@ -96,7 +96,7 @@ describe('CreateAssetModal', () => {
         expect(getByText('Unit 2')).toBeInTheDocument();
     });
 
-    it('calls onCancel when clicking cancel button', async () => {
+    test('calls onCancel when clicking cancel button', async () => {
         const { getByText } = renderCreateAssetModal(true);
         await act(async () => {
             fireEvent.click(getByText('Cancel'));
@@ -104,7 +104,7 @@ describe('CreateAssetModal', () => {
         expect(mockOnCancel).toHaveBeenCalledTimes(1);
     });
 
-    it('calls onSave with the new asset when clicking save button', async () => {
+    test('calls onSave with the new asset when clicking save button', async () => {
         const { getByText, getByLabelText, findByText } = renderCreateAssetModal(true);
 
         fireEvent.input(getByLabelText('Name'), { target: { value: 'New Asset' } });

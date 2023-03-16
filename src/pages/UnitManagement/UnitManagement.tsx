@@ -93,7 +93,7 @@ const UnitManagement: React.FC = () => {
             {units.length > 0 && (
                 <Row gutter={[16, 16]} justify="center">
                     {units.map((unit) => (
-                        <Col key={unit.id} xs={24} sm={12} md={8} lg={6} xl={4}>
+                        <Col key={unit.id} xs={24} sm={12} md={8} lg={6} xl={4} data-testid="unit-card">
                             <UnitCard unit={unit} onUpdate={onUpdate} onDelete={onDelete} />
                         </Col>
                     ))}

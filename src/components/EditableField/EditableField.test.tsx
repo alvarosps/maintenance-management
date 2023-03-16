@@ -47,7 +47,7 @@ describe('EditableField', () => {
         expect(onChange).toHaveBeenCalledWith('New Value');
     });
 
-    it('calls onChange when a Select option is chosen', async () => {
+    test('calls onChange when a Select option is chosen', async () => {
         const onChange = jest.fn();
         const { getByRole, getByText } = render(
             <EditableField field="status" value="option1" editing={true} onChange={onChange} options={options} />,
